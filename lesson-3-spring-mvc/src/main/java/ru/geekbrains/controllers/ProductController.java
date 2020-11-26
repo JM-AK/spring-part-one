@@ -5,12 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.persist.Product;
 import ru.geekbrains.persist.ProductRepository;
+
+import java.math.BigDecimal;
 
 @Controller
 @RequestMapping("/product")
@@ -38,6 +37,10 @@ public class ProductController {
     @GetMapping("/new")
     public String newProduct(Model model) {
         // TODO дописать добавление аттрибута
+        logger.info("Add product");
+        Product product= new Product();
+        productRepository.insert(product);
+        model.addAttribute("product", product);
         return "product_form";
     }
 
@@ -48,8 +51,10 @@ public class ProductController {
     }
 
     @GetMapping("/delete")
-    public String deleteProduct(Model model) {
+    public String deleteProduct(@RequestParam (value = "id") Long id,  Model model) {
         // TODO дописать удаление продукта
+        logger.info("Delete product with id {}", id);
+        productRepository.delete(id);
         return "redirect:/product";
     }
 }
