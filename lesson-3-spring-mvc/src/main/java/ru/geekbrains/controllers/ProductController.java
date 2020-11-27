@@ -38,19 +38,21 @@ public class ProductController {
     public String newProduct(Model model) {
         // TODO дописать добавление аттрибута
         logger.info("Add product");
-        Product product= new Product();
-        productRepository.insert(product);
-        model.addAttribute("product", product);
+        model.addAttribute(new Product());
         return "product_form";
     }
 
     @PostMapping("/update")
     public String updateProduct(Product product) {
-        productRepository.update(product);
+        if (product.getId() == null) {
+            productRepository.insert(product);
+        } else {
+            productRepository.update(product);
+        }
         return "redirect:/product";
     }
 
-    @GetMapping("/delete")
+    @DeleteMapping("/delete")
     public String deleteProduct(@RequestParam (value = "id") Long id,  Model model) {
         // TODO дописать удаление продукта
         logger.info("Delete product with id {}", id);
