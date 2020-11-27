@@ -52,8 +52,8 @@ public class ProductController {
         return "redirect:/product";
     }
 
-    @DeleteMapping("/delete")
-    public String deleteProduct(@RequestParam (value = "id") Long id,  Model model) {
+    @DeleteMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable (value = "id") Long id,  Model model) {
         // TODO дописать удаление продукта
         logger.info("Delete product with id {}", id);
         productRepository.delete(id);
