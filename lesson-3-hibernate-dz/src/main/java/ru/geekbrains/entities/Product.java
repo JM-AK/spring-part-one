@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "products")
+@NamedQuery(name = "findByTitle", query = "from Product p where p.title = :title")
 public class Product {
 
     @Id
@@ -94,5 +95,14 @@ public class Product {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                '}';
     }
 }

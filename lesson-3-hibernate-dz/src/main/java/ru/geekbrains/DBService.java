@@ -51,7 +51,7 @@ public class DBService {
         EntityManager em = emFactory.createEntityManager();
         try {
             em.getTransaction().begin();
-            Category categoryFound = em.createNamedQuery("findByTitle", Category.class).setParameter("title", category).getSingleResult();
+            Category categoryFound = em.createNamedQuery("findCategoryByTitle", Category.class).setParameter("title", category).getSingleResult();
             if (categoryFound != null) {
                 em.persist(new Product(null, title, description, new BigDecimal(price), categoryFound));
                 em.getTransaction().commit();
@@ -103,22 +103,49 @@ public class DBService {
         EntityManager em = emFactory.createEntityManager();
         try {
             em.getTransaction().begin();
-
+            Product product = em.createNamedQuery("findByTitle", Product.class).getSingleResult();
+            em.remove(product);
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new DBServiceException("Add product fail");
+            throw new DBServiceException("Delete product fail");
         } finally {
             em.close();
         }
     }
 
     public void deleteConsumer(String consumerID){
-
+        EntityManager em = emFactory.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            Consumer consumer = em.find(Consumer.class, Long.parseLong(consumerID));
+            em.remove(consumer);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DBServiceException("Delete consumer fail");
+        } finally {
+            em.close();
+        }
     }
 
-    public void findOrders(Long consumerID) {
-
+    public void findOrderedProductsByConsumer(String consumerID) {
+        EntityManager em = emFactory.createEntityManager();
+        try {
+            em.getTransaction().begin();
+            List<Order> orders = em.createQuery("select o from Order o where o.consumer.id = :id", Order.class)
+                    .setParameter("id", Long.parseLong(consumerID))
+                    .getResultList();
+            for (Order order : orders) {
+                order.getProducts().forEach(System.out::println);
+            }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new DBServiceException("find bought products of consumer fail");
+        } finally {
+            em.close();
+        }
     }
 
     class DBServiceException extends RuntimeException{

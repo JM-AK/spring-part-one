@@ -30,7 +30,6 @@ public class OrderApp {
                     }
                     break;
                 case ("addProduct"):
-
                     if (cmdArgs.length == 4) {
                         try {
                             dbService.addProduct(cmdArgs[0], cmdArgs[1], cmdArgs[2], cmdArgs[3]);
@@ -58,6 +57,30 @@ public class OrderApp {
                     } else {
                         System.out.println("Empty args, try again");
                     }
+                    break;
+                case ("deleteProduct"):
+                    if (cmdArgs.length == 1) {
+                        dbService.deleteProduct(cmdArgs[0]);
+                        System.out.println("Success deleteProduct");
+                    } else {
+                        System.out.println("Empty args, try again");
+                    }
+                    break;
+                case ("deleteConsumer"):
+                    if (cmdArgs.length == 1) {
+                        dbService.deleteProduct(cmdArgs[0]);
+                        System.out.println("Success deleteConsumer");
+                    } else {
+                        System.out.println("Empty args, try again");
+                    }
+                    break;
+                case ("findOrderedProductsByConsumerID"):
+                    if (cmdArgs.length == 1) {
+                        dbService.findOrderedProductsByConsumer(cmdArgs[0]);
+                    } else {
+                        System.out.println("Empty args, try again");
+                    }
+                    break;
                 default:
                     System.out.println("Unknown command");
             }

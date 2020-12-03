@@ -5,7 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "categories")
-@NamedQuery(name = "findByTitle", query = "from Category c where c.title = :title")
+@NamedQuery(name = "findCategoryByTitle", query = "from Category c where c.title = :title")
 public class Category {
 
     @Id
