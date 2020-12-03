@@ -5,6 +5,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "consumers")
+@NamedQuery(name = "findByID", query = "from Consumer c where c.id = :id")
 public class Consumer {
 
     @Id
@@ -29,6 +30,14 @@ public class Consumer {
 
     public Consumer() {
 
+    }
+
+    public Consumer(Long id, String firstName, String lastName, String login, String email) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.email = email;
     }
 
     public Long getId() {

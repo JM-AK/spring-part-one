@@ -23,6 +23,16 @@ public class Order {
     )
     private List<Product> products;
 
+    public Order(){
+
+    }
+
+    public Order(Long id, Consumer consumer, List<Product> products) {
+        this.id = id;
+        this.consumer = consumer;
+        this.products = products;
+    }
+
     public Long getId() {
         return id;
     }

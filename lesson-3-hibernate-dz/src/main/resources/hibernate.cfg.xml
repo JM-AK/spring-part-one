@@ -17,7 +17,6 @@
         <mapping class="ru.geekbrains.entities.Product"/>
         <mapping class="ru.geekbrains.entities.Category"/>
         <mapping class="ru.geekbrains.entities.Order"/>
-        <mapping class="ru.geekbrains.entities.Sales"/>
-
+        <mapping class="ru.geekbrains.entities.Consumer"/>
     </session-factory>
 </hibernate-configuration>
