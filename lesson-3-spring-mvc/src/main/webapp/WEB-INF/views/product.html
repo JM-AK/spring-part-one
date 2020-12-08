@@ -67,7 +67,7 @@
                     </td>
                     <td th:text="${product.price}">$1000</td>
                     <td>
-                        <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}">
+                        <a class="btn btn-success" th:href="@{/product/edit/{id}(id = ${product.id})}">
                             <i class="fas fa-edit"></i>
                         </a>
                         <form class="d-inline" th:method="delete" th:action="@{/product/{id}(id = ${product.id})}">
