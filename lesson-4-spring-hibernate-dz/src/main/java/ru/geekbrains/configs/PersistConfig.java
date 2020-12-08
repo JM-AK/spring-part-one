@@ -1,3 +1,5 @@
+package ru.geekbrains.configs;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +16,7 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@EnableJpaRepositories("ru.geekbrains.persist.repo")
+@EnableJpaRepositories("ru.geekbrains.repositories")
 @EnableTransactionManagement
 @PropertySource("classpath:application.properties")
 public class PersistConfig {
@@ -56,7 +58,7 @@ public class PersistConfig {
         factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         // Указание пакета, в котором будут находиться классы-сущности
-        factory.setPackagesToScan("ru.geekbrains.persist.entity");
+        factory.setPackagesToScan("ru.geekbrains.entities");
 
         // Создание свойств для настройки Hibernate
         factory.setJpaProperties(jpaProperties());

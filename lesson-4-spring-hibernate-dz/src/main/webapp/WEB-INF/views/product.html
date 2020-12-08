@@ -40,8 +40,8 @@
 
         <form class="form-inline mt-3" method="get">
             <div class="form-group mx-sm-3 mb-2">
-                <label for="name-filter" class="sr-only">Name filter:</label>
-                <input th:value="${param.nameFilter}" type="text" class="form-control" name="nameFilter" id="name-filter" placeholder="Name filter">
+                <label for="title-filter" class="sr-only">Title filter:</label>
+                <input th:value="${param.titleFilter}" type="text" class="form-control" name="titleFilter" id="title-filter" placeholder="Title filter">
             </div>
             <!-- TODO добавить поля фильтров -->
             <button type="submit" class="btn btn-primary mb-2">Apply</button>
@@ -52,8 +52,7 @@
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
+                    <th scope="col">Title</th>
                     <th scope="col">Price</th>
                     <th scope="col">Actions</th>
                 </tr>
@@ -61,10 +60,7 @@
                 <tbody>
                 <tr th:each="product : ${products}">
                     <th scope="row" th:text="${product.id}">1</th>
-                    <td th:text="${product.name}">MacBook Air 13" CZ</td>
-                    <td th:text="${product.description}">MacBook - Intel Core i5 5350U Broadwell, 13" TN lesklý 1440 ×
-                        900, RAM 8GB DDR3
-                    </td>
+                    <td th:text="${product.title}">MacBook Air 13" CZ</td>
                     <td th:text="${product.price}">$1000</td>
                     <td>
                         <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}">
