@@ -3,13 +3,13 @@ package ru.geekbrains.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.geekbrains.persist.Product;
-import ru.geekbrains.persist.ProductRepository;
-
-import java.math.BigDecimal;
+import ru.geekbrains.persist.entity.Product;
+import ru.geekbrains.persist.repo.ProductRepository;
+import ru.geekbrains.persist.repo.ProductSpecification;
 
 @Controller
 @RequestMapping("/product")
@@ -21,9 +21,17 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @GetMapping
-    public String indexProductPage(Model model) {
+    public String indexProductPage(Model model, @RequestParam(name = "nameFilter", required = false) String nameFilter) {
         logger.info("Product page update");
-        model.addAttribute("products", productRepository.findAll());
+
+        Specification<Product> spec = Specification.where(null);
+
+        if (nameFilter != null && !nameFilter.isBlank()) {
+            spec = spec.and(ProductSpecification.nameLike(nameFilter));
+        }
+        // TODO добавить обработку параметров формы
+
+        model.addAttribute("products", productRepository.findAll(spec));
         return "product";
     }
 
@@ -36,27 +44,20 @@ public class ProductController {
 
     @GetMapping("/new")
     public String newProduct(Model model) {
-        // TODO дописать добавление аттрибута
-        logger.info("Add product");
         model.addAttribute(new Product());
         return "product_form";
     }
 
     @PostMapping("/update")
     public String updateProduct(Product product) {
-        if (product.getId() == null) {
-            productRepository.insert(product);
-        } else {
-            productRepository.update(product);
-        }
+        productRepository.save(product);
         return "redirect:/product";
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable (value = "id") Long id,  Model model) {
-        // TODO дописать удаление продукта
+    @DeleteMapping("/{id}")
+    public String deleteProduct(@PathVariable(value = "id") Long id) {
         logger.info("Delete product with id {}", id);
-        productRepository.delete(id);
+        productRepository.deleteById(id);
         return "redirect:/product";
     }
 }
