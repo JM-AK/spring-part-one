@@ -58,7 +58,7 @@
     </dependencies>
 
     <build>
-        <finalName>spring-mvc-app</finalName>
+        <finalName>mvc-app</finalName>
 
         <plugins>
             <plugin>

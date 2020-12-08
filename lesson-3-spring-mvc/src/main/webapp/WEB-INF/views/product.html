@@ -35,7 +35,7 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
-            <a class="btn btn-primary" href="product_form.html">Add Product</a>
+            <a class="btn btn-primary"  th:href="@{product/new}">Add ru.geekbrains.entities.Product</a>
         </div>
 
         <div class="col-12">
@@ -57,7 +57,11 @@
                     <td th:text="${product.price}">$1000</td>
                     <td>
                         <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>
+
+                        <form th:action="@{/product/delete/{id}(id = ${product.id})}" th:method="delete">
+                            <input type="hidden" name="_method" value="delete" />
+                            <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
