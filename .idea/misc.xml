@@ -4,6 +4,7 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/lesson-2-servlet-app" />
     <file type="web" url="file://$PROJECT_DIR$/lesson-3-spring-mvc" />
+    <file type="web" url="file://$PROJECT_DIR$/lesson-4-spring-hibernate-dz" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
