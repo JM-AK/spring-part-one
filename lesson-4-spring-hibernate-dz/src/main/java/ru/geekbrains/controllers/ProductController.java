@@ -3,6 +3,7 @@ package ru.geekbrains.controllers;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,8 @@ import ru.geekbrains.entities.Product;
 import ru.geekbrains.exceptions.ResourceNotFoundException;
 import ru.geekbrains.repositories.specifications.ProductSpecification;
 import ru.geekbrains.services.ProductService;
+
+import java.math.BigDecimal;
 
 @Controller
 @RequestMapping("/product")
@@ -22,17 +25,31 @@ public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping
-    public String indexProductPage(Model model, @RequestParam(name = "titleFilter", required = false) String titleFilter, @RequestParam(defaultValue = "1", name = "p") Integer page) {
+    public String indexProductPage(Model model,
+                                   @RequestParam(defaultValue = "1", name = "p") Integer page,
+                                   @RequestParam (name = "titleFilter", required = false) String titleFilter,
+                                   @RequestParam (name = "minPrice", required = false) BigDecimal minPrice,
+                                   @RequestParam (name = "maxPrice", required = false) BigDecimal maxPrice
+                                   ) {
         logger.info("Product page update");
+
+        if (page < 1) {
+            page = 1;
+        }
 
         Specification<Product> spec = Specification.where(null);
 
         if (titleFilter != null && !titleFilter.isBlank()) {
             spec = spec.and(ProductSpecification.titleLike(titleFilter));
         }
-        // TODO добавить обработку параметров формы
-
-        model.addAttribute("products", productService.findAll(spec,page - 1, 5));
+        if (minPrice !=null) {
+            spec = spec.and(ProductSpecification.priceGreaterOrEqualsThan(minPrice));
+        }
+        if (maxPrice !=null) {
+            spec = spec.and(ProductSpecification.priceLessOrEqualsThan(maxPrice));
+        }
+        Page<Product> products = productService.findAll(spec,page - 1, 5);
+        model.addAttribute("products", products);
         return "product";
     }
 
