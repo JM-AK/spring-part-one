@@ -32,6 +32,8 @@ public class ProductController {
     @GetMapping
     public String indexProductPage(Model model,
                                    @RequestParam(defaultValue = "1", name = "p") Integer page,
+                                   @RequestParam(defaultValue = "id", name = "sortField") String sortField,
+                                   @RequestParam(defaultValue = "asc",name = "sortDirection") String sortDirection,
                                    @RequestParam Map<String, String> params
                                    ) {
         logger.info("Product page update");
@@ -41,7 +43,10 @@ public class ProductController {
         }
         ProductFilter productFilter = new ProductFilter(params);
 
-        Page<Product> products = productService.findAll(productFilter.getSpec(),page - 1, 5);
+        Page<Product> products = productService.findAll(productFilter.getSpec(),page - 1, 5, sortField, sortDirection);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
         model.addAttribute("products", products);
         model.addAttribute("filterDefinition", productFilter.getFilterDefinition());
         return "product";
@@ -49,7 +54,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id) {
-        return productService.findById(id).orElseThrow(()-> new NotFoundException("Product with id: " + id+ "doesn't exists"));
+        return productService.findById(id).orElseThrow(()-> new NotFoundException("Product with id: " + id + "doesn't exists"));
     }
 
     @GetMapping("/edit/{id}")

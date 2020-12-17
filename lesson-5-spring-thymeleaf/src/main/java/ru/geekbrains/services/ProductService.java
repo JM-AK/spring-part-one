@@ -3,6 +3,7 @@ package ru.geekbrains.services;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.entities.Product;
@@ -34,4 +35,10 @@ public class ProductService {
     public Page<Product> findAll (Specification<Product> spec, int page, int size){
         return productRepository.findAll(spec, PageRequest.of(page, size));
     }
+
+    public Page<Product> findAll (Specification<Product> spec, int page, int size, String sortField, String sortDirection){
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        return productRepository.findAll(spec, PageRequest.of(page, size, sort));
+    }
+
 }
