@@ -3,14 +3,17 @@ package ru.geekbrains.controllers;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.entities.Product;
 import ru.geekbrains.exceptions.ResourceNotFoundException;
-import ru.geekbrains.repositories.specifications.ProductSpecification;
 import ru.geekbrains.services.ProductService;
+import ru.geekbrains.util.ProductFilter;
+
+import java.math.BigDecimal;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/product")
@@ -22,17 +25,20 @@ public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping
-    public String indexProductPage(Model model, @RequestParam(name = "titleFilter", required = false) String titleFilter, @RequestParam(defaultValue = "1", name = "p") Integer page) {
+    public String indexProductPage(Model model,
+                                   @RequestParam(defaultValue = "1", name = "p") Integer page,
+                                   @RequestParam Map<String, String> params
+                                   ) {
         logger.info("Product page update");
 
-        Specification<Product> spec = Specification.where(null);
-
-        if (titleFilter != null && !titleFilter.isBlank()) {
-            spec = spec.and(ProductSpecification.titleLike(titleFilter));
+        if (page < 1) {
+            page = 1;
         }
-        // TODO добавить обработку параметров формы
+        ProductFilter productFilter = new ProductFilter(params);
 
-        model.addAttribute("products", productService.findAll(spec,page - 1, 5));
+        Page<Product> products = productService.findAll(productFilter.getSpec(),page - 1, 5);
+        model.addAttribute("product", products);
+        model.addAttribute("filterDefinition", productFilter.getFilterDefinition());
         return "product";
     }
 
