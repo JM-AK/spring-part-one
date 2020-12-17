@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/head.html :: head"/>
 
@@ -36,9 +36,15 @@
             <table class="table table-bordered my-2" data>
                 <thead>
                 <tr>
-                    <th> <a class="sorted" sd:pagination-sort="id">ID</a></th>
-                    <th> <a class="sorted" sd:pagination-sort="title">Title</a></th>
-                    <th><a class="sorted" sd:pagination-sort="price">Price</a></th>
+                    <th>
+                        <a th:href="@{'/product?p=' + ${products.previousOrFirstPageable().getPageNumber() + 1} + '&sortField=id' + '&sortDirection=' + ${sortDirection}}">ID</a>
+                    </th>
+                    <th>
+                        <a th:href="@{'/product?p=' + ${products.previousOrFirstPageable().getPageNumber() + 1} + '&sortField=title' + '&sortDirection=' + ${sortDirection}}">Title</a>
+                    </th>
+                    <th>
+                        <a th:href="@{'/product?p=' + ${products.previousOrFirstPageable().getPageNumber() + 1} + '&sortField=price' + '&sortDirection=' + ${sortDirection}}">Price</a>
+                    </th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
@@ -72,7 +78,7 @@
                         <span th:unless="${sortField.empty}">
                             <a class="page-link"
                                th:href="@{'/product?p=' + ${products.previousOrFirstPageable().getPageNumber() + 1} + ${filterDefinition} +
-                                       '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} }">Back</a>
+                                       '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection} }">Back</a>
                         </span>
                     </li>
                     <li class="page-item" th:classappend="${products.getNumber() + 1 == i ? 'active' : ''}"
@@ -82,7 +88,7 @@
                         </span>
                         <span th:unless="${sortField.empty}">
                             <a class="page-link" th:text="${i}" th:href="@{'/product?p=' + ${i} + ${filterDefinition} +
-                        '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}"></a>
+                        '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}"></a>
                         </span>
                     </li>
                     <li class="page-item"  th:classappend="${products.isLast() ? 'disabled' : ''}">
@@ -93,7 +99,7 @@
                         <span th:unless="${sortField.empty}">
                             <a class="page-link"
                                th:href="@{'/product?p='+ ${products.nextOrLastPageable().getPageNumber() + 1} + ${filterDefinition} +
-                           '?sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">Next</a>
+                           '&sortField=' + ${sortField} + '&sortDirection=' + ${sortDirection}}">Next</a>
                         </span>
                     </li>
                 </ul>
