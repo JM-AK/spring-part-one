@@ -1,0 +1,17 @@
+ru\geekbrains\exceptions\NotFoundException.class
+ru\geekbrains\configs\PersistConfig.class
+ru\geekbrains\entities\Customer.class
+ru\geekbrains\controllers\ProductController.class
+ru\geekbrains\repositories\ProductRepository.class
+ru\geekbrains\entities\Category.class
+ru\geekbrains\entities\Product.class
+ru\geekbrains\entities\OrderItem.class
+ru\geekbrains\services\OrderService.class
+ru\geekbrains\repositories\specifications\ProductSpecification.class
+ru\geekbrains\util\ProductFilter.class
+ru\geekbrains\repositories\CustomerRepository.class
+ru\geekbrains\repositories\OrderRepository.class
+ru\geekbrains\WebInitializer.class
+ru\geekbrains\services\ProductService.class
+ru\geekbrains\entities\Order.class
+ru\geekbrains\configs\AppConfig.class

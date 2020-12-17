@@ -5,11 +5,13 @@
     <file type="web" url="file://$PROJECT_DIR$/lesson-2-servlet-app" />
     <file type="web" url="file://$PROJECT_DIR$/lesson-3-spring-mvc" />
     <file type="web" url="file://$PROJECT_DIR$/lesson-4-spring-hibernate-dz" />
+    <file type="web" url="file://$PROJECT_DIR$/lesson-5-spring-thymeleaf" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/lesson-5-spring-thymeleaf/pom.xml" />
       </list>
     </option>
   </component>
