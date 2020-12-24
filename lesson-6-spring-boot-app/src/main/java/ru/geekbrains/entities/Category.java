@@ -4,15 +4,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
-@Table(name = "products")
+@Table(name = "categories")
 @Data
 @NoArgsConstructor
-public class Product {
-
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -21,15 +19,6 @@ public class Product {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "price")
-    private BigDecimal price;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-
-    @OneToMany(mappedBy = "product")
-    private List<OrderItem> orderItems;
-
-
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
 }

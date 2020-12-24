@@ -4,15 +4,19 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.geekbrains.entities.Product;
-import ru.geekbrains.exceptions.ResourceNotFoundException;
+import ru.geekbrains.exceptions.NotFoundException;
 import ru.geekbrains.services.ProductService;
 import ru.geekbrains.util.ProductFilter;
 
-import java.math.BigDecimal;
+import javax.validation.Valid;
+import java.io.NotActiveException;
 import java.util.Map;
 
 @Controller
@@ -27,6 +31,8 @@ public class ProductController {
     @GetMapping
     public String indexProductPage(Model model,
                                    @RequestParam(defaultValue = "1", name = "p") Integer page,
+                                   @RequestParam(defaultValue = "id", name = "sortField") String sortField,
+                                   @RequestParam(defaultValue = "asc",name = "sortDirection") String sortDirection,
                                    @RequestParam Map<String, String> params
                                    ) {
         logger.info("Product page update");
@@ -35,21 +41,25 @@ public class ProductController {
             page = 1;
         }
         ProductFilter productFilter = new ProductFilter(params);
-        Page<Product> products = productService.findAll(productFilter.getSpec(),page - 1, 5);
-        model.addAttribute("product", products);
+
+        Page<Product> products = productService.findAll(productFilter.getSpec(),page - 1, 5, sortField, sortDirection);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+        model.addAttribute("products", products);
         model.addAttribute("filterDefinition", productFilter.getFilterDefinition());
         return "product";
     }
 
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id) {
-        return productService.findById(id).orElseThrow(()-> new ResourceNotFoundException("Product with id: " + id+ "doesn't exists"));
+        return productService.findById(id).orElseThrow(()-> new NotFoundException("Product with id: " + id + "doesn't exists"));
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable(value = "id") Long id, Model model) {
+    public String showEditForm(@PathVariable(value = "id") Long id, Model model) throws NotActiveException {
         logger.info("Edit product with id {}", id);
-        Product p = productService.findById(id).orElseThrow(()-> new ResourceNotFoundException("Product with id: " + id+ "doesn't exists"));
+        Product p = productService.findById(id).orElseThrow(NotActiveException::new);
         model.addAttribute("product", p);
         return "product_edit_form";
     }
@@ -61,7 +71,10 @@ public class ProductController {
     }
 
     @PostMapping("/edit")
-    public String editProduct(@ModelAttribute Product product) {
+    public String editProduct(@Valid Product product, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "product_edit_form";
+        }
         productService.saveOrUpdate(product);
         return "redirect:/product";
     }
@@ -76,5 +89,12 @@ public class ProductController {
     @DeleteMapping
     public void deleteAll(){
         productService.deleteAll();
+    }
+
+    @ExceptionHandler
+    public ModelAndView notFoundExceptionHandler(NotFoundException ex){
+        ModelAndView modelAndView = new ModelAndView("not found");
+        modelAndView.setStatus(HttpStatus.NOT_FOUND);
+        return modelAndView;
     }
 }

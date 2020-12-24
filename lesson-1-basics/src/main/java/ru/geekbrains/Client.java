@@ -10,5 +10,6 @@ public class Client {
         CalcNds calcNds = new CalcNds(ndsProvider);
         Double result = calcNds.priceWithNds(1000.);
         System.out.println(result);
+
     }
 }

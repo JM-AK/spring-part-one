@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -18,9 +20,11 @@ public class Product {
     @Column(name = "id")
     private Long id;
 
+    @NotBlank
     @Column(name = "title")
     private String title;
 
+    @NotNull
     @Column(name = "price")
     private BigDecimal price;
 
@@ -30,6 +34,5 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<OrderItem> orderItems;
-
 
 }
