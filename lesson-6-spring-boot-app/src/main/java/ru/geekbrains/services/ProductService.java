@@ -36,9 +36,14 @@ public class ProductService {
         return productRepository.findAll(spec, PageRequest.of(page, size));
     }
 
-    public Page<Product> findAll (Specification<Product> spec, int page, int size, String sortField, String sortDirection){
-        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
-        return productRepository.findAll(spec, PageRequest.of(page, size, sort));
+    public Page<Product> findAll(Specification<Product> spec, Optional<Integer> page, Optional<Integer> size, Optional<String> sortField, Optional<String> sortOrder) {
+        if (sortField.isPresent() && sortOrder.isPresent()) {
+            return productRepository.findAll(spec, PageRequest.of(
+                    page.orElse(1) - 1, size.orElse(5),
+                    Sort.by(Sort.Direction.fromString(sortOrder.get()), sortField.get()))
+            );
+        }
+        return productRepository.findAll(spec, PageRequest.of(page.orElse(1) - 1, size.orElse(5)));
     }
 
 }

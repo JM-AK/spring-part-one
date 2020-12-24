@@ -18,6 +18,7 @@ import ru.geekbrains.util.ProductFilter;
 import javax.validation.Valid;
 import java.io.NotActiveException;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
@@ -30,22 +31,18 @@ public class ProductController {
 
     @GetMapping
     public String indexProductPage(Model model,
-                                   @RequestParam(defaultValue = "1", name = "p") Integer page,
-                                   @RequestParam(defaultValue = "id", name = "sortField") String sortField,
-                                   @RequestParam(defaultValue = "asc",name = "sortDirection") String sortDirection,
+                                   @RequestParam(name = "page") Optional<Integer> page,
+                                   @RequestParam(name = "size") Optional<Integer> size,
+                                   @RequestParam(name = "sortField") Optional<String> sortField,
+                                   @RequestParam(name = "sortOrder") Optional<String> sortOrder,
                                    @RequestParam Map<String, String> params
                                    ) {
         logger.info("Product page update");
-
-        if (page < 1) {
-            page = 1;
-        }
         ProductFilter productFilter = new ProductFilter(params);
 
-        Page<Product> products = productService.findAll(productFilter.getSpec(),page - 1, 5, sortField, sortDirection);
+        Page<Product> products = productService.findAll(productFilter.getSpec(), page, size, sortField, sortOrder);
         model.addAttribute("sortField", sortField);
-        model.addAttribute("sortDirection", sortDirection);
-        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+        model.addAttribute("sortOrder", sortOrder);
         model.addAttribute("products", products);
         model.addAttribute("filterDefinition", productFilter.getFilterDefinition());
         return "product";
