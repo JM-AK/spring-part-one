@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head.html :: head"/>
+
+<body>
+
+<div class="container">
+    <div th:replace="~{navigation :: navigation(Orders)}" />
+    <h1>Каталог товаров</h1>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>Клиент</th>
+            <th>Товар</th>
+            <th>Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="o : ${orders}">
+            <td th:text="${o.id}"/>
+            <td th:text="${o.customer.name}"/>
+            <td th:text="${o.product.title}"/>
+            <td th:text="${o.currentPrice}"/>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
