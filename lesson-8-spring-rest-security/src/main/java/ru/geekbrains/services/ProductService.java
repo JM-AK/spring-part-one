@@ -1,6 +1,7 @@
 package ru.geekbrains.services;
 
 import lombok.AllArgsConstructor;
+import org.attoparser.dom.Comment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -39,6 +40,10 @@ public class ProductService {
                     Sort.by(Sort.Direction.fromString(sortOrder.get()), sortField.get()))
             );
         }
+        return productRepository.findAll(spec, PageRequest.of(page.orElse(1) - 1, size.orElse(5)));
+    }
+
+    public Page<Product> findAll(Specification<Product> spec, Optional<Integer> page, Optional<Integer> size) {
         return productRepository.findAll(spec, PageRequest.of(page.orElse(1) - 1, size.orElse(5)));
     }
 
