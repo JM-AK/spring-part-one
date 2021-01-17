@@ -32,4 +32,21 @@ public class OrderItem {
 
     @Column(name = "price")
     private BigDecimal price;
+
+    public OrderItem(Product p) {
+        this.product = p;
+        this.quantity = 1;
+        this.price = p.getPrice();
+        this.pricePerProduct = p.getPrice();
+    }
+
+    public void incrementQuantity() {
+        quantity++;
+        price = pricePerProduct.multiply(BigDecimal.valueOf(quantity));
+    }
+
+    public void decrementQuantity() {
+        quantity--;
+        price = pricePerProduct.multiply(BigDecimal.valueOf(quantity));
+    }
 }
