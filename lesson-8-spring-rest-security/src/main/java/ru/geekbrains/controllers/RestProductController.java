@@ -17,7 +17,7 @@ public class RestProductController {
 
     @GetMapping // /api/v1/product
     public List<Product> getAllProducts() {
-        return productService.findAll(Specification.where(null), Optional.of(0), Optional.of(0)).getContent();
+        return productService.findAll();
     }
 
     @GetMapping("/{id}")
