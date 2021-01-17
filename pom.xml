@@ -25,6 +25,7 @@
         <module>lesson-4-spring-hibernate-dz</module>
         <module>lesson-5-spring-thymeleaf</module>
         <module>lesson-6-spring-boot-app</module>
+        <module>lesson-8-spring-rest-security</module>
     </modules>
 
 </project>
