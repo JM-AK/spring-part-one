@@ -5,9 +5,9 @@
 
 <body>
 
-<nav th:replace="fragments/head.html :: navigation(Products)"/>
-
 <div class="container">
+    <div th:replace="fragments/head.html :: navigation(Products)"/>
+
     <h1>List of products</h1>
 
     <div class="row py-2">
@@ -55,9 +55,13 @@
                         <a class="btn btn-success" th:href="@{/product/edit/{id}(id = ${product.id})}">
                             <i class="fas fa-edit"></i>
                         </a>
+
                         <form class="d-inline" th:method="delete" th:action="@{/product/{id}(id = ${product.id})}">
                             <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                         </form>
+
+                        <a class="btn btn-success" th:href="@{/cart/add/{product_id}(product_id = ${product.id})}">To Cart</a>
+
                     </td>
                 </tr>
                 <tr th:unless="${products.hasContent()}">
