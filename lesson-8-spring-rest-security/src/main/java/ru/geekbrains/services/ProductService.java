@@ -48,4 +48,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public Page<Product> findAll(Specification<Product> spec, int page, int size) {
+        return productRepository.findAll(spec, PageRequest.of(page, size));
+    }
 }
