@@ -68,8 +68,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers("/*.css", "/*.js").anonymous()
                     .antMatchers("/user").hasAnyRole("ADMIN","SUPERADMIN")
                     .antMatchers("/user/**").hasRole("SUPERADMIN")
-                    .antMatchers("/product/*").hasAnyRole("ADMIN", "SUPERADMIN", "MANAGER")
                     .antMatchers("/product").hasAnyRole("ADMIN", "SUPERADMIN", "MANAGER", "USER")
+                    .antMatchers("/product/**").hasAnyRole("ADMIN", "SUPERADMIN", "MANAGER")
                     .anyRequest().authenticated() // .anonymous() для неавторизованного доступа
                     .and()
                     .formLogin();
