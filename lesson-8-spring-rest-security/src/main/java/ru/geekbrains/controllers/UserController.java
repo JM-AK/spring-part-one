@@ -13,6 +13,7 @@ import ru.geekbrains.entities.User;
 import ru.geekbrains.exceptions.NotFoundException;
 import ru.geekbrains.repositories.RoleRepository;
 import ru.geekbrains.services.UserService;
+import ru.geekbrains.services.UserServiceImpl;
 
 import javax.validation.Valid;
 
