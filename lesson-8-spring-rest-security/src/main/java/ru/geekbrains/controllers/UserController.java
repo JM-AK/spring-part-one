@@ -9,13 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import ru.geekbrains.NotFoundException;
 import ru.geekbrains.entities.User;
 import ru.geekbrains.exceptions.NotFoundException;
-import ru.geekbrains.persist.entity.User;
-import ru.geekbrains.persist.repo.RoleRepository;
 import ru.geekbrains.repositories.RoleRepository;
-import ru.geekbrains.service.UserService;
 import ru.geekbrains.services.UserService;
 
 import javax.validation.Valid;
@@ -48,7 +44,7 @@ public class UserController {
 
         model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("user", userService.findById(id)
-                .orElseThrow(new NotFoundException("User doesn't exists")));
+                .orElseThrow());
         return "user_form";
     }
 
