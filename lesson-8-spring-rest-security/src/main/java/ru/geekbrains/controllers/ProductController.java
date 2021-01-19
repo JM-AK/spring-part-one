@@ -50,7 +50,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id) {
-        return productService.findById(id).orElseThrow(()-> new NotFoundException("Product with id: " + id + "doesn't exists"));
+        return productService.findById(id).orElseThrow(()-> new NotFoundException());
     }
 
     @GetMapping("/edit/{id}")

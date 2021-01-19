@@ -38,7 +38,7 @@ public class CartController {
             @PathVariable(name = "product_id") Long productId,
             HttpServletRequest request, HttpServletResponse response) throws IOException {
         Product p = productService.findById(productId).orElseThrow(
-                () -> new NotFoundException("Product with id: " + productId + " doesn't exists (add to cart)"));
+                () -> new NotFoundException());
         cart.addOrIncrement(p);
         response.sendRedirect(request.getHeader("referer"));
     }

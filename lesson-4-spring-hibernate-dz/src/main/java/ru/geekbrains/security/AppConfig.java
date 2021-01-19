@@ -1,4 +1,4 @@
-package ru.geekbrains.configs;
+package ru.geekbrains.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;

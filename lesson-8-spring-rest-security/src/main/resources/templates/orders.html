@@ -21,7 +21,7 @@
         <tbody>
         <tr th:each="o : ${orders}">
             <td th:text="${o.id}"/>
-            <td th:text="${o.customer.name}"/>
+            <td th:text="${o.getUser.name}"/>
             <td th:text="${o.product.title}"/>
             <td th:text="${o.currentPrice}"/>
         </tr>

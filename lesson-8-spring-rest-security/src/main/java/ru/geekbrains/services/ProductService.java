@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import ru.geekbrains.entities.Product;
 import ru.geekbrains.repositories.ProductRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -43,8 +44,11 @@ public class ProductService {
         return productRepository.findAll(spec, PageRequest.of(page.orElse(1) - 1, size.orElse(5)));
     }
 
-    public Page<Product> findAll(Specification<Product> spec, Optional<Integer> page, Optional<Integer> size) {
-        return productRepository.findAll(spec, PageRequest.of(page.orElse(1) - 1, size.orElse(5)));
+    public List<Product> findAll() {
+        return productRepository.findAll();
     }
 
+    public Page<Product> findAll(Specification<Product> spec, int page, int size) {
+        return productRepository.findAll(spec, PageRequest.of(page, size));
+    }
 }
