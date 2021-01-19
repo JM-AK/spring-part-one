@@ -2,7 +2,6 @@ create table users (
     id                      bigserial,
     login                   varchar(255) not null,
     password                varchar(255) not null,
-    email                   varchar(255) not null,
     primary key (id)
 );
 
@@ -27,12 +26,12 @@ values
 ('ROLE_MANAGER'),
 ('ROLE_SUPERADMIN');
 
-insert into users(login, password, email)
+insert into users(login, password)
 values
-('user', '$2y$10$wzdBHCtfwteBro/Z5XOfxeg6.a0UFPN9/m/Mpv4sVJ.anCTL6Npem' , 'user@gmail.com'),
-('admin', '$2y$10$itNKYOpw2WFqeh5HqKM.Nu/yfplrMZB2dkKIP2QdSmhRX9wOd3wOC ', 'admin@gmail.com'),
-('manager', '$2y$10$IAa.hf4LEA4BY5Gp3JNJOecJJIDP.cIGx6Y48Mss/CISwNoq/gU0a ', 'manager@gmail.com'),
-('superadmin', '$2y$10$aqSx.8/Fm57x6aE0YoggGeFWapqOscTjUbhwvPe/ahF.kaKrrHEni ', 'superadmin@gmail.com');
+('user', '$2y$10$wzdBHCtfwteBro/Z5XOfxeg6.a0UFPN9/m/Mpv4sVJ.anCTL6Npem'),
+('admin', '$2y$10$itNKYOpw2WFqeh5HqKM.Nu/yfplrMZB2dkKIP2QdSmhRX9wOd3wOC'),
+('manager', '$2y$10$IAa.hf4LEA4BY5Gp3JNJOecJJIDP.cIGx6Y48Mss/CISwNoq/gU0a'),
+('superadmin', '$2y$10$aqSx.8/Fm57x6aE0YoggGeFWapqOscTjUbhwvPe/ahF.kaKrrHEni');
 
 insert into users_roles (user_id, role_id)
 values

@@ -51,6 +51,7 @@ public class UserController {
 
     @GetMapping("/new")
     public String newUser(Model model) {
+        logger.info("Create new user");
         model.addAttribute(new User());
         return "user_form";
     }
